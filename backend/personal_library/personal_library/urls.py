@@ -4,9 +4,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-
-from books.views import UserRegistrationView, BookListView
-
+from books.views import UserRegistrationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,5 +12,4 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/register/', UserRegistrationView.as_view(), name='user_registration'),
-    path('api/books/', BookListView.as_view(), name='book-list'),
 ]
