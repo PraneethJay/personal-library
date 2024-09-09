@@ -1,3 +1,3 @@
-Personal Book Management System
-  Frontend - React
-  Backend - Django
+`Personal Book Management System`
+  - Frontend - React
+  - Backend - Django
