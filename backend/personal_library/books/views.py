@@ -6,6 +6,8 @@ from .models import Book
 from .serializers import BookSerializer
 from books.serializers import UserRegistrationSerializer
 from .filters import BookFilter
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 
 class BookPagination(PageNumberPagination):
     page_size = 10
@@ -14,21 +16,19 @@ class BookPagination(PageNumberPagination):
 
 
 class BookViewSet(viewsets.ModelViewSet):
-    serializer_class = BookSerializer
     queryset = Book.objects.all()
+    serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Filter books by the current user
-        return self.queryset.filter(user=self.request.user)
+        user = self.request.user
+        return Book.objects.filter(user=user)
 
-    def perform_create(self, serializer):
-        # Assign the current user to the book
-        serializer.save(user=self.request.user)
 
 
 class UserRegistrationView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
+    permission_classes = [AllowAny]
 
 
 class BookViewSet(viewsets.ModelViewSet):

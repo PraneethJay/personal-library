@@ -6,18 +6,7 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ['id', 'title', 'author', 'publication_date', 'isbn', 'cover_image']
-        extra_kwargs = {
-            'cover_image': {'required': False},
-            'isbn': {'validators': []},  # You can add custom validators if needed
-        }
-
-    def validate_isbn(self, value):
-        """
-        Validate that the ISBN is unique.
-        """
-        if Book.objects.filter(isbn=value).exists():
-            raise serializers.ValidationError("A book with this ISBN already exists.")
-        return value
+        read_only_fields = ['user']
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
