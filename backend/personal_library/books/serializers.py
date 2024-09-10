@@ -2,11 +2,18 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Book
 
+
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ['id', 'title', 'author', 'publication_date', 'isbn', 'cover_image']
         read_only_fields = ['user']
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        user = request.user  # Get the user from the request
+        return Book.objects.create(user=user, **validated_data)
+
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)

@@ -9,6 +9,7 @@ from .filters import BookFilter
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
+
 class BookPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
@@ -19,11 +20,6 @@ class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        user = self.request.user
-        return Book.objects.filter(user=user)
-
 
 
 class UserRegistrationView(generics.CreateAPIView):
@@ -38,7 +34,7 @@ class BookViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['title', 'author']
     filterset_class = BookFilter
-    
+
     def get_queryset(self):
         # Filter books by the current user
         return self.queryset.filter(user=self.request.user)
